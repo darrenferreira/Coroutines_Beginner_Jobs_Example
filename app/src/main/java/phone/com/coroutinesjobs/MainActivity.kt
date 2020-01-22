@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
             if (!::job.isInitialized) {
                 initJob()
             }
+            job_progress_bar.startJobOrCancel(job)
         }
-        job_progress_bar.startJobOrCancel(job)
 
     }
 
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(IO + job).launch {
                 println("coroutine ${this} is activated with this $job")
 
-                for (i in PROG_START..PROG_MAX){
+                for (i in PROG_START..PROG_MAX) {
                     delay((JOB_TIME / PROG_MAX).toLong())
                     this@startJobOrCancel.progress = i
                 }
@@ -48,14 +48,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateJobCompleteTextView(text :String){
+    private fun updateJobCompleteTextView(text: String) {
         GlobalScope.launch(Main) {
             job_complete_text.setText(text)
         }
     }
 
     private fun resetJob() {
-        if (job.isActive||job.isCompleted){
+        if (job.isActive || job.isCompleted) {
             job.cancel(CancellationException("Resetting Job"))
         }
         initJob()
